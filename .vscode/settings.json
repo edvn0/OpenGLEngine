@@ -1,0 +1,11 @@
+{
+	"cmake.configureArgs": [
+		"-GNinja"
+	],
+	"cmake.configureOnEdit": false,
+	"cmake.skipConfigureIfCachePresent": true,
+	"cmake.saveBeforeBuild": true,
+	"cmake.exportCompileCommandsFile": true,
+	"cmake.loadCompileCommands": true,
+	"cmake.parallelJobs": 0,
+}

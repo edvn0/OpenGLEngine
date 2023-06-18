@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmake",
+			"label": "CMake: Build application",
+			"command": "build",
+			"targets": [
+				"Application"
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$gcc"
+			],
+			"detail": "CMake template build task"
+		},
+		{
+			"type": "cmake",
+			"label": "CMake: Clean",
+			"command": "build",
+			"targets": [
+				"clean"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"detail": "CMake template build task"
+		}
+	]
+}
