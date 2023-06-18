@@ -4,7 +4,6 @@
 
 namespace Engine::Graphics {
 
-
 	void Graphics::do_stuff()
 	{
 		std::cout << "Hello world!"

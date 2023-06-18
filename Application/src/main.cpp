@@ -1,9 +1,10 @@
+#include "main.hpp"
+
 #include "common/logger.hpp"
 #include "common/logger_provider.hpp"
 #include "graphics/graphics.hpp"
-#include "main.hpp"
-#include "startup/startup.hpp"
 #include "my_layer.hpp"
+#include "startup/startup.hpp"
 
 #include <filesystem>
 

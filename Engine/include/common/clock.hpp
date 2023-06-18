@@ -9,4 +9,4 @@ namespace Engine::Clock {
 		static float time_ns();
 	};
 
-}
+} // namespace Engine::Clock

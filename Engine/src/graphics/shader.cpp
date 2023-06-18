@@ -1,7 +1,7 @@
 #include "graphics/shader.hpp"
-#include "errors/graphics_exception.hpp"
-#include "common/logger.hpp"
 
+#include "common/logger.hpp"
+#include "errors/graphics_exception.hpp"
 #include "opengl/shader.hpp"
 
 #include <fstream>

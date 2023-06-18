@@ -1,9 +1,9 @@
-#include "graphics/graphics.hpp"
-#include "graphics/context.hpp"
-#include "graphics/window.hpp"
 #include "startup/startup.hpp"
 
 #include "common/clock.hpp"
+#include "graphics/context.hpp"
+#include "graphics/graphics.hpp"
+#include "graphics/window.hpp"
 
 namespace Engine::Startup {
 
@@ -46,7 +46,6 @@ namespace Engine::Startup {
 			}
 			ts = Clock::Clock::time_ms() - start;
 			start = Clock::Clock::time_ms();
-
 
 			window->update();
 		}

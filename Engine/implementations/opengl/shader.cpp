@@ -1,6 +1,7 @@
+#include "opengl/shader.hpp"
+
 #include "common/logger.hpp"
 #include "errors/graphics_exception.hpp"
-#include "opengl/shader.hpp"
 
 #include <algorithm>
 

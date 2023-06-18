@@ -1,6 +1,7 @@
 #include "my_layer.hpp"
-#include "processing/background_service.hpp"
+
 #include "graphics/shader.hpp"
+#include "processing/background_service.hpp"
 
 #include <GLFW/glfw3.h>
 #include <glm/ext/matrix_clip_space.hpp>

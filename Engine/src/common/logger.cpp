@@ -1,5 +1,6 @@
-#include "common/config.hpp"
 #include "common/logger.hpp"
+
+#include "common/config.hpp"
 #include "common/logger_provider.hpp"
 #include "common/types.hpp"
 

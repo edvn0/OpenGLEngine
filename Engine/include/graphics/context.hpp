@@ -1,5 +1,5 @@
 #pragma once
-	#include "common/types.hpp"
+#include "common/types.hpp"
 
 namespace Engine::Context {
 
@@ -8,8 +8,9 @@ namespace Engine::Context {
 		virtual ~Context() = default;
 
 		static RefPtr<Context> construct();
+
 	protected:
 		Context() = default;
 	};
 
-}
+} // namespace Engine::Context

@@ -1,8 +1,9 @@
+#include "glfw/glfw_window.hpp"
+
 #include "common/logger.hpp"
 #include "common/types.hpp"
 #include "common/verify.hpp"
 #include "errors/graphics_exception.hpp"
-#include "glfw/glfw_window.hpp"
 
 #include <glad/glad.h>
 #define GLFW_INCLUDE_NONE

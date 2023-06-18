@@ -7,4 +7,4 @@ namespace OpenGL::Context {
 
 	Context::~Context() = default;
 
-}
+} // namespace OpenGL::Context

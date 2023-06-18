@@ -8,4 +8,4 @@ namespace OpenGL::Context {
 		Context();
 		~Context() override;
 	};
-}
+} // namespace OpenGL::Context

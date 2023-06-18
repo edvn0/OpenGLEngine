@@ -16,9 +16,8 @@ namespace Engine::Background {
 		return background_service;
 	}
 
-	void submit_work(BackgroundFunction&& f, TaskPriority prio) { 
-	get_background_service().submit(std::move(f), prio); }
+	void submit_work(BackgroundFunction&& f, TaskPriority prio) { get_background_service().submit(std::move(f), prio); }
 
-		void submit_work(SomeOtherBackgroundFunction&& f, TaskPriority prio) { get_other_background_service().submit(std::move(f), prio); }
+	void submit_work(SomeOtherBackgroundFunction&& f, TaskPriority prio) { get_other_background_service().submit(std::move(f), prio); }
 
 } // namespace Engine::Background

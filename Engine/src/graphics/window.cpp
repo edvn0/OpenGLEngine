@@ -1,8 +1,9 @@
+#include "graphics/window.hpp"
+
 #include "common/logger.hpp"
 #include "common/types.hpp"
 #include "common/verify.hpp"
 #include "glfw/glfw_window.hpp"
-#include "graphics/window.hpp"
 
 #include <filesystem>
 #include <fstream>
