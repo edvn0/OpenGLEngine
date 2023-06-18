@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.25)
 
 project(Engine CXX C)
 
@@ -12,6 +12,7 @@ set(sources
 	src/graphics/context.cpp
 	src/graphics/window.cpp
 	src/graphics/shader.cpp
+	src/graphics/mesh.cpp
 	src/common/logger.cpp
 	src/common/logger_provider.cpp
 	src/common/verify.cpp
@@ -23,10 +24,10 @@ file(GLOB_RECURSE headers_implementations implementations/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${sources} ${implementations} ${headers} ${headers_implementations})
 target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE ${implementations_dir} ${third_party} ${third_party}/glad ${third_party}/glm)
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw fmt::fmt spdlog::spdlog glm::glm)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw fmt::fmt spdlog::spdlog glm::glm tinyobjloader)
 
 if((${CMAKE_CXX_COMPILER_ID} MATCHES "Clang") OR(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU"))
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
+	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wno-unknown-pragmas -Wno-unused-function)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")

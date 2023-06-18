@@ -1,7 +1,7 @@
 #pragma once
 #include "common/types.hpp"
 
-namespace Engine::Context {
+namespace Engine::Graphics::Context {
 
 	class Context {
 	public:

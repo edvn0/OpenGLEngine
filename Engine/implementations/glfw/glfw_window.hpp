@@ -13,7 +13,7 @@ namespace GLFW::Window {
 
 	class Window : public Engine::Window::Window {
 	public:
-		explicit Window(Context::Context& context, const std::filesystem::path& settings_file);
+		explicit Window(Graphics::Context::Context& context, const std::filesystem::path& settings_file);
 		~Window();
 
 		bool should_close() const override;

@@ -1,10 +1,15 @@
 #include "opengl/context.hpp"
 
+#include "common/logger.hpp"
+
+#include <GLFW/glfw3.h>
+
 namespace OpenGL::Context {
 
 	Context::Context()
-		: Engine::Context::Context() {};
+		: Engine::Graphics::Context::Context() {
+		}
 
-	Context::~Context() = default;
+	Context::~Context() {}
 
 } // namespace OpenGL::Context

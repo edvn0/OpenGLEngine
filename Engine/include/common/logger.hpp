@@ -152,6 +152,88 @@ namespace Engine::Logging {
 			}
 		}
 
+		template <typename... Args> void info(std::string_view format, Args&&... args) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->info(f, fmt::make_format_args(args...));
+			}
+		}
+
+		void info(std::string_view format) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				if (f.empty())
+					return;
+				logger->info(f);
+			}
+		}
+
+		template <typename... Args> void debug(std::string_view format, Args&&... args) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->debug(f, fmt::make_format_args(args...));
+			}
+		}
+
+		void debug(std::string_view format) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->debug(f);
+			}
+		}
+
+		template <typename... Args> void trace(std::string_view format, Args&&... args) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->trace(f, fmt::make_format_args(args...));
+			}
+		}
+
+		void trace(std::string_view format) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->trace(f);
+			}
+		}
+
+		template <typename... Args> void warning(std::string_view format, Args&&... args) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->warning(f, fmt::make_format_args(args...));
+			}
+		}
+
+		void warning(std::string_view format) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->warning(f);
+			}
+		}
+
+		template <typename... Args> void error(std::string_view format, Args&&... args) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->error(f, fmt::make_format_args(args...));
+			}
+		}
+
+		void error(std::string_view format) const
+		{
+			if constexpr (!is_release) {
+				const auto f = fmt::format("{}::{}", logging_scope, format);
+				logger->error(f);
+			}
+		}
+
 	private:
 		ScopePtr<ILogger> logger;
 		std::string_view logging_scope { "" };

@@ -43,7 +43,7 @@ namespace Engine::Verify {
 	requires std::is_convertible_v<T, bool>
 	static void that(T&& potentially_invalid, std::string_view error = "Verification failure.", std::string_view log_scope = "Verify")
 	{
-		if (!is_release) {
+		if constexpr (!is_release) {
 			Verification verification(static_cast<bool>(std::forward<T>(potentially_invalid)));
 			verification.with_error(log_scope, error);
 		}

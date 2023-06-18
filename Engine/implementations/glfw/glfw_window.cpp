@@ -1,9 +1,8 @@
-#include "glfw/glfw_window.hpp"
-
 #include "common/logger.hpp"
 #include "common/types.hpp"
 #include "common/verify.hpp"
 #include "errors/graphics_exception.hpp"
+#include "glfw/glfw_window.hpp"
 
 #include <glad/glad.h>
 #define GLFW_INCLUDE_NONE
@@ -27,11 +26,10 @@ namespace GLFW::Window {
 			int k = rand() % 3;
 			Engine::Background::TaskPriority prio { k };
 			Engine::Background::submit_work(
-				[](auto id) mutable {
+				[](auto id, auto& logger) mutable {
 					int random_sleep = rand() % 75;
 					random_sleep += 1;
 					std::this_thread::sleep_for(std::chrono::duration<float, std::milli>(random_sleep));
-					Logging::Logger logger { "InThread" };
 					logger.debug("Current-{}", id);
 				},
 				prio);
@@ -42,10 +40,9 @@ namespace GLFW::Window {
 
 	static void error_callback(int error, const char* description) { fprintf(stderr, "Error: %s, Code: %d\n", description, error); }
 
-	Window::Window(Context::Context& context, const std::filesystem::path& window_settings)
+	Window::Window(Graphics::Context::Context& context, const std::filesystem::path& window_settings)
 		: Engine::Window::Window(context, window_settings)
 	{
-		Logger logger { "GLFW::Window" };
 		if (const auto status = glfwInit(); status == GLFW_FALSE) {
 			throw Engine::Errors::Graphics::InitialisationException();
 		}
@@ -84,7 +81,6 @@ namespace GLFW::Window {
 
 	Window::~Window()
 	{
-		Logger logger { "GLFW::Window" };
 		glfwDestroyWindow(handle);
 		logger.debug("{}", "GLFWwindow was destructed!"sv);
 		glfwTerminate();

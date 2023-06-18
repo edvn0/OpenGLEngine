@@ -3,6 +3,8 @@
 
 .cache
 build
+cmake-build*
+.idea
 
 ### C ###
 # Prerequisites

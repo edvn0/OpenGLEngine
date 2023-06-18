@@ -28,7 +28,12 @@ function(add_glm)
 	add_subdirectory(glm)
 endfunction()
 
+function(add_tinyobjloader)
+	add_subdirectory(tinyobjloader)
+endfunction()
+
 add_glfw()
 add_fmt()
 add_spdlog()
 add_glm()
+add_tinyobjloader()

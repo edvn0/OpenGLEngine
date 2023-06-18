@@ -5,7 +5,7 @@
 #include <filesystem>
 #include <string_view>
 
-namespace Engine::Context {
+namespace Engine::Graphics::Context {
 	class Context;
 }
 
@@ -26,20 +26,20 @@ namespace Engine::Window {
 
 		void serialise_window_settings(const std::filesystem::path&);
 
-		const Context::Context& get_context() const { return context; }
-		Context::Context& get_context() { return context; }
+		const Graphics::Context::Context& get_context() const { return context; }
+		Graphics::Context::Context& get_context() { return context; }
 
 		const WindowSettings& get_settings() const { return settings; }
 
-		static RefPtr<Window> construct(Context::Context&, const std::filesystem::path&);
+		static RefPtr<Window> construct(Graphics::Context::Context&, const std::filesystem::path&);
 
 	protected:
-		explicit Window(Context::Context& graphics_context, const std::filesystem::path& window_settings);
+		explicit Window(Graphics::Context::Context& graphics_context, const std::filesystem::path& window_settings);
 
 	private:
 		void deserialise_window_settings(const std::filesystem::path& settings_file);
 
-		Context::Context& context;
+		Graphics::Context::Context& context;
 		WindowSettings settings;
 	};
 } // namespace Engine::Window

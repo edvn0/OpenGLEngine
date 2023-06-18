@@ -3,7 +3,7 @@
 #include "graphics/context.hpp"
 
 namespace OpenGL::Context {
-	class Context : public Engine::Context::Context {
+	class Context : public Engine::Graphics::Context::Context {
 	public:
 		Context();
 		~Context() override;

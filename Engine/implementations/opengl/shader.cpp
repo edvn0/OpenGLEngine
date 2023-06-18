@@ -9,7 +9,10 @@ namespace OpenGL::Shader {
 
 	Shader::~Shader() { glDeleteProgram(program); }
 
-	void Shader::bind() { glUseProgram(program); }
+	void Shader::bind()
+	{
+		glUseProgram(program);
+	}
 
 	Shader::Shader(const std::filesystem::path& vertex, const std::filesystem::path& fragment)
 	{
@@ -18,9 +21,6 @@ namespace OpenGL::Shader {
 		const auto vertex_data = vertex_file.c_str();
 		const auto fragment_file = read_file(fragment);
 		const auto fragment_data = fragment_file.c_str();
-
-		logger.debug("{}", vertex_file);
-		logger.debug("{}", fragment_file);
 
 		static const auto compile = [&logger = logger](GLenum type, auto data) {
 			GLuint shader = glCreateShader(type);
@@ -55,6 +55,8 @@ namespace OpenGL::Shader {
 		}
 		glDeleteShader(vertex_shader);
 		glDeleteShader(fragment_shader);
+
+		logger.debug("Successfully compiled and linked a vertex and a fragment shader into a shader program.");
 	}
 
 } // namespace OpenGL::Shader

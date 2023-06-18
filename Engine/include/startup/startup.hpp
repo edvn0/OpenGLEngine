@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common/logger.hpp"
 #include "common/types.hpp"
 #include "graphics/window.hpp"
 #include "layer/layer.hpp"
@@ -33,8 +34,10 @@ namespace Engine::Startup {
 		}
 
 	private:
+		Logging::Logger logger { "Startup" };
 		std::array<Engine::ScopePtr<Engine::Layer::Layer>, LayerCount> layers { nullptr };
 		std::size_t layers_index { 0 };
+		RefPtr<Graphics::Context::Context> context;
 		RefPtr<Window::Window> window;
 		std::filesystem::path cwd;
 	};

@@ -15,8 +15,8 @@
 
 namespace Engine::Background {
 
-	using BackgroundFunction = std::function<void(std::thread::id)>;
-	using SomeOtherBackgroundFunction = std::function<void(std::thread::id, std::string_view)>;
+	using BackgroundFunction = std::function<void(std::thread::id, Logging::Logger&)>;
+	using SomeOtherBackgroundFunction = std::function<void(std::thread::id, std::string_view, Logging::Logger&)>;
 
 	enum class TaskPriority { Low = 0, Mid = 1, High = 2, Instant = 3 };
 
@@ -29,13 +29,13 @@ namespace Engine::Background {
 		template <std::uint32_t Interval, std::size_t Threads, class Func, template <class> class Task> class BasicBackgroundService {
 			using BBS = BasicBackgroundService<Interval, Threads, Func, Task>;
 
-			static constexpr auto evaluate_function = [](const Func& f) {
+			static constexpr auto evaluate_function = [](const Func& f, Logging::Logger& logger) {
 				const auto this_id = std::this_thread::get_id();
 				if constexpr (std::is_same_v<Func, BackgroundFunction>)
-					f(this_id);
+					f(this_id, logger);
 
 				if constexpr (std::is_same_v<Func, SomeOtherBackgroundFunction>)
-					f(this_id, "Hello");
+					f(this_id, "Hello", logger);
 			};
 
 		public:
@@ -52,7 +52,7 @@ namespace Engine::Background {
 				if (prio != TaskPriority::Instant)
 					tasks.push(Task<Func> { .function = std::move(f), .priority = prio });
 				else {
-					evaluate_function(std::move(f));
+					evaluate_function(std::move(f), logger);
 				}
 			}
 
@@ -79,7 +79,7 @@ namespace Engine::Background {
 					while (!tasks.empty()) {
 						const auto popped = tasks.top();
 						tasks.pop();
-						evaluate_function(popped.function);
+						evaluate_function(popped.function, logger);
 					}
 					logger.info("Successfully ran the last tasks.");
 				}
@@ -106,7 +106,7 @@ namespace Engine::Background {
 
 					const auto popped = tasks.top();
 					tasks.pop();
-					evaluate_function(popped.function);
+					evaluate_function(popped.function, logger);
 				}
 			}
 

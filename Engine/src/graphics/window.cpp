@@ -22,14 +22,15 @@ namespace Engine::Window {
 			Verify::that(false);
 	};
 
-	RefPtr<Window> Window::construct(Context::Context& context, const std::filesystem::path& settings_file)
+	RefPtr<Window> Window::construct(Graphics::Context::Context& context, const std::filesystem::path& settings_file)
 	{
 		return construct_ref<GLFW::Window::Window>(context, settings_file);
 	}
 
-	Window::Window(Context::Context& graphics_context, const std::filesystem::path& window_settings)
+	Window::Window(Graphics::Context::Context& graphics_context, const std::filesystem::path& window_settings)
 		: context(graphics_context)
 	{
+		Verify::that(std::filesystem::is_regular_file(window_settings), "Path is not a regular file.");
 		deserialise_window_settings(window_settings);
 	}
 

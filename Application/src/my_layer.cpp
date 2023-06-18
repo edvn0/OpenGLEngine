@@ -1,6 +1,7 @@
-#include "my_layer.hpp"
-
+#include "common/verify.hpp"
+#include "graphics/mesh.hpp"
 #include "graphics/shader.hpp"
+#include "my_layer.hpp"
 #include "processing/background_service.hpp"
 
 #include <GLFW/glfw3.h>
@@ -17,13 +18,17 @@ void MyLayer::on_create()
 {
 	shader = Graphics::Shader::Shader::construct("Assets/Shaders/simple.vert", "Assets/Shaders/simple.frag");
 
-	Background::submit_work([&something = this->something](auto id) mutable {
+	Background::submit_work([&something = this->something](auto id, const auto& logger) mutable {
 		using namespace std::chrono_literals;
-		something = Graphics::Shader::Shader::construct("Assets/Shaders/simple.vert", "Assets/Shaders/simple.frag");
-		Logging::Logger logger { "InThread" };
-		logger.debug("Current-{}", id);
+		for (auto i = 0; i < 10; i++) {
+			std::this_thread::sleep_for(1000ms);
+			something = Graphics::Shader::Shader::construct("Assets/Shaders/simple.vert", "Assets/Shaders/simple.frag");
+			logger.debug("Current-{}", id);
+		}
 	});
 
+	mesh = Graphics::Mesh::Mesh::construct("Assets/Models/sphere.obj");
+	Verify::that(mesh.unique());
 	// Set up vertex data (and buffer(s)) and attribute pointers
 	GLfloat vertices[] = {
 		-0.5f, -0.5f, 0.0f, // Left

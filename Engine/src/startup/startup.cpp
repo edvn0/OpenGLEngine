@@ -1,9 +1,8 @@
-#include "startup/startup.hpp"
-
 #include "common/clock.hpp"
 #include "graphics/context.hpp"
 #include "graphics/graphics.hpp"
 #include "graphics/window.hpp"
+#include "startup/startup.hpp"
 
 namespace Engine::Startup {
 
@@ -26,11 +25,11 @@ namespace Engine::Startup {
 	template <std::size_t T> void Main<T>::compile_and_run()
 	{
 		// Create graphics context
-		auto context = Context::Context::construct();
+		context = Graphics::Context::Context::construct();
 		// Create window
 		window = Window::Window::construct(*context, cwd / window_setting_file_name);
 
-		// Construct and initalise layers
+		// Construct and initialise layers
 		for (auto& layer : layers) {
 			layer->on_create();
 		}
@@ -40,14 +39,14 @@ namespace Engine::Startup {
 		while (!window->should_close()) {
 			window->poll();
 
-			// Construct and initalise layers
+			// Construct and initialise layers
 			for (auto& layer : layers) {
 				layer->on_update(ts);
 			}
-			ts = Clock::Clock::time_ms() - start;
-			start = Clock::Clock::time_ms();
 
 			window->update();
+			ts = Clock::Clock::time_ms() - start;
+			start = Clock::Clock::time_ms();
 		}
 	}
 
