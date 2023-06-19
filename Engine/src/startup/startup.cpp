@@ -1,8 +1,9 @@
+#include "startup/startup.hpp"
+
 #include "common/clock.hpp"
 #include "graphics/context.hpp"
 #include "graphics/graphics.hpp"
 #include "graphics/window.hpp"
-#include "startup/startup.hpp"
 
 namespace Engine::Startup {
 
@@ -19,6 +20,7 @@ namespace Engine::Startup {
 		window->serialise_window_settings(cwd / window_setting_file_name);
 		for (auto& layer : layers) {
 			layer->on_delete();
+			layer.reset(nullptr);
 		}
 	}
 
@@ -36,6 +38,8 @@ namespace Engine::Startup {
 
 		std::float_t start { Clock::Clock::time_ms() };
 		std::float_t ts { 10.f };
+
+		static std::size_t number_frames { 0 };
 		while (!window->should_close()) {
 			window->poll();
 
@@ -45,8 +49,15 @@ namespace Engine::Startup {
 			}
 
 			window->update();
-			ts = Clock::Clock::time_ms() - start;
-			start = Clock::Clock::time_ms();
+
+			double current_time = Clock::Clock::time_ms();
+			number_frames++;
+			ts = current_time - start;
+			if (current_time - start >= 1000.0) {
+				logger.debug("Frametime: {:2f}ms", 1000.0 / static_cast<double>(number_frames));
+				number_frames = 0;
+				start += 1000.0;
+			}
 		}
 	}
 

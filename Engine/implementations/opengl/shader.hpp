@@ -8,13 +8,16 @@ namespace OpenGL::Shader {
 
 	class Shader : public Engine::Graphics::Shader::Shader {
 	public:
-		explicit Shader(const std::filesystem::path& vertex, const std::filesystem::path& fragment);
+		explicit Shader(std::string_view name, const std::filesystem::path& vertex, const std::filesystem::path& fragment);
 		~Shader() override;
 
 		virtual void bind() override;
 
+		std::string_view get_identifier() override { return shader_name; }
+
 	private:
 		GLuint program;
+		std::string shader_name;
 	};
 
 } // namespace OpenGL::Shader

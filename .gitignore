@@ -6,6 +6,8 @@ build
 cmake-build*
 .idea
 
+!Assets
+
 ### C ###
 # Prerequisites
 *.d

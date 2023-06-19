@@ -1,14 +1,18 @@
+#include "glfw/glfw_window.hpp"
+
 #include "common/logger.hpp"
 #include "common/types.hpp"
 #include "common/verify.hpp"
 #include "errors/graphics_exception.hpp"
-#include "glfw/glfw_window.hpp"
-
-#include <glad/glad.h>
-#define GLFW_INCLUDE_NONE
 #include "processing/background_service.hpp"
 
+// clang-format off
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
+// clang-format on
+
+#include <bit>
 #include <iostream>
 #include <vector>
 
@@ -18,8 +22,9 @@ namespace GLFW::Window {
 
 	static void on_key_event(GLFWwindow* window, int key, int, int, int)
 	{
-		if (key == GLFW_KEY_Q) {
+		if (key == GLFW_KEY_Q || key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GLFW_TRUE);
+			return;
 		}
 
 		if (key == GLFW_KEY_K) {
@@ -49,9 +54,9 @@ namespace GLFW::Window {
 		glfwSetErrorCallback(error_callback);
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
 		const auto& [w, h, name] = get_settings();
 		handle = glfwCreateWindow(w, h, name.data(), nullptr, nullptr);

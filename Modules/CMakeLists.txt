@@ -32,8 +32,14 @@ function(add_tinyobjloader)
 	add_subdirectory(tinyobjloader)
 endfunction()
 
+function(add_glad)
+	add_subdirectory(glad)
+endfunction()
+
+
 add_glfw()
 add_fmt()
 add_spdlog()
 add_glm()
 add_tinyobjloader()
+add_glad()

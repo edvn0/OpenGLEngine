@@ -29,6 +29,11 @@ namespace Engine::Logging {
 		virtual void trace(std::string_view format, fmt::format_args&& args = {}) = 0;
 		virtual void warning(std::string_view format, fmt::format_args&& args = {}) = 0;
 		virtual void error(std::string_view format, fmt::format_args&& args = {}) = 0;
+		virtual void info(std::string_view format, fmt::format_args&& args = {}) const = 0;
+		virtual void debug(std::string_view format, fmt::format_args&& args = {}) const = 0;
+		virtual void trace(std::string_view format, fmt::format_args&& args = {}) const = 0;
+		virtual void warning(std::string_view format, fmt::format_args&& args = {}) const = 0;
+		virtual void error(std::string_view format, fmt::format_args&& args = {}) const = 0;
 	};
 
 	class DefaultLogger : public ILogger {
@@ -41,6 +46,12 @@ namespace Engine::Logging {
 		void trace(std::string_view format, fmt::format_args&& args = {}) override;
 		void warning(std::string_view format, fmt::format_args&& args = {}) override;
 		void error(std::string_view format, fmt::format_args&& args = {}) override;
+		void info(std::string_view format, fmt::format_args&& args = {}) const override;
+		void debug(std::string_view format, fmt::format_args&& args = {}) const override;
+		void trace(std::string_view format, fmt::format_args&& args = {}) const override;
+		void warning(std::string_view format, fmt::format_args&& args = {}) const override;
+		void error(std::string_view format, fmt::format_args&& args = {}) const override;
+
 
 	private:
 		RefPtr<spdlog::logger> core_logger;
@@ -240,3 +251,5 @@ namespace Engine::Logging {
 	};
 
 } // namespace Engine::Logging
+
+static auto get_logger(std::string_view scope) { return Engine::Logging::Logger { scope }; }

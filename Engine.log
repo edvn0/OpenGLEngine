@@ -1,0 +1,15 @@
+[18:10:19] [info] OpenGLEngine: Engine::Logging::CoreLogger intialised! Working directory: /home/edwinc/Personal/OpenGLEngine.
+[18:10:19] [info] Application: Engine::Logging::ApplicationLogger intialised! Working directory: /home/edwinc/Personal/OpenGLEngine
+[18:10:19] [info] OpenGLEngine: Window::WindowSettings::Finished deserialisation.
+[18:10:19] [info] OpenGLEngine: Window::WindowSettings::Window width: 1280, Window height: 720
+[18:10:20] [info] OpenGLEngine: GLFWWindow::OpenGL Vendor Microsoft Corporation
+[18:10:20] [info] OpenGLEngine: GLFWWindow::OpenGL Renderer D3D12 (NVIDIA RTX A2000 Laptop GPU)
+[18:10:20] [info] OpenGLEngine: GLFWWindow::OpenGL Version 4.6 (Core Profile) Mesa 22.2.5
+[18:10:20] [debug] OpenGLEngine: OpenGL::Shader::Successfully compiled and linked a vertex and a fragment shader into a shader program.
+[18:10:21] [debug] OpenGLEngine: Startup::Frametime: 55.555556ms
+[18:10:22] [debug] OpenGLEngine: Startup::Frametime: 50.000000ms
+[18:10:23] [info] OpenGLEngine: MyLayer::Deleted layer MyLayer.
+[18:10:23] [debug] OpenGLEngine: OpenGL::Mesh::Destroying mesh with name sphere.obj!
+[18:10:23] [debug] OpenGLEngine: OpenGL::Shader::Destructor for shader with name simple
+[18:10:23] [debug] OpenGLEngine: GLFWWindow::GLFWwindow was destructed!
+[18:10:23] [debug] OpenGLEngine: GLFWWindow::GLFW terminated!

@@ -6,11 +6,9 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
-#pragma region
 // clang-format off
 #include "logger_provider_fs_path.inl"
 // clang-format on
-#pragma endregion
 
 namespace Engine::Logging {
 

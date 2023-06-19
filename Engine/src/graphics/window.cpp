@@ -30,8 +30,8 @@ namespace Engine::Window {
 	Window::Window(Graphics::Context::Context& graphics_context, const std::filesystem::path& window_settings)
 		: context(graphics_context)
 	{
-		Verify::that(std::filesystem::is_regular_file(window_settings), "Path is not a regular file.");
-		deserialise_window_settings(window_settings);
+		if (std::filesystem::is_regular_file(window_settings))
+			deserialise_window_settings(window_settings);
 	}
 
 	void Window::deserialise_window_settings(const std::filesystem::path& settings_file)

@@ -1,55 +1,36 @@
+#include "my_layer.hpp"
+
 #include "common/verify.hpp"
+#include "core/execution_scope.hpp"
 #include "graphics/mesh.hpp"
 #include "graphics/shader.hpp"
-#include "my_layer.hpp"
+#include "graphics/vertex_array.hpp"
 #include "processing/background_service.hpp"
 
-#include <GLFW/glfw3.h>
-#include <glm/ext/matrix_clip_space.hpp>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <thread>
 
 using namespace Engine;
 
 void MyLayer::on_create()
 {
-	shader = Graphics::Shader::Shader::construct("Assets/Shaders/simple.vert", "Assets/Shaders/simple.frag");
+	shader = Graphics::Shader::Shader::construct("simple", "Assets/Shaders/simple.vert", "Assets/Shaders/simple.frag");
 
-	Background::submit_work([&something = this->something](auto id, const auto& logger) mutable {
+#if 0
+	Background::submit_work([](auto id, const auto& l) mutable {
 		using namespace std::chrono_literals;
-		for (auto i = 0; i < 10; i++) {
+		for (auto i = 0; i < 1; i++) {
 			std::this_thread::sleep_for(1000ms);
-			something = Graphics::Shader::Shader::construct("Assets/Shaders/simple.vert", "Assets/Shaders/simple.frag");
-			logger.debug("Current-{}", id);
+			auto something = Graphics::Shader::Shader::construct("simple_in_thread", "Assets/Shaders/simple.vert", "Assets/Shaders/simple.frag");
+			l.debug("Current-{}", id);
 		}
 	});
+#endif
 
+	va = Graphics::VertexArray::VertexArray::construct();
+
+	va->bind();
 	mesh = Graphics::Mesh::Mesh::construct("Assets/Models/sphere.obj");
-	Verify::that(mesh.unique());
-	// Set up vertex data (and buffer(s)) and attribute pointers
-	GLfloat vertices[] = {
-		-0.5f, -0.5f, 0.0f, // Left
-		0.5f, -0.5f, 0.0f, // Right
-		0.0f, 0.5f, 0.0f // Top
-	};
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex
-									  // buffer object so afterwards we can safely unbind
-
-	glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
+	va->unbind();
 }
 
 void MyLayer::on_update(std::float_t)
@@ -62,14 +43,11 @@ void MyLayer::on_update(std::float_t)
 	glViewport(0, 0, 1280, 700);
 
 	// Draw our first triangle
-	shader->bind();
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glBindVertexArray(0);
+	{
+		Engine::Core::ExecutionScope::ExecutionScope scope { va };
+		shader->bind();
+		mesh->draw();
+	}
 }
 
-void MyLayer::on_delete()
-{
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-}
+void MyLayer::on_delete() { }

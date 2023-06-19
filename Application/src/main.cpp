@@ -17,12 +17,8 @@ Application::Result<int> Application::engine_main()
 
 	ApplicationMain main(cwd);
 	main.add_layer<MyLayer>(main);
-	try {
-		main.compile_and_run();
-		return Application::Result<int>(0);
-	} catch (const std::exception& exc) {
-		return Application::Result<int>(exc);
-	}
+	main.compile_and_run();
+	return Application::Result<int>(0);
 }
 
 int main(int, char**)

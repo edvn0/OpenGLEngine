@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(Engine CXX C)
+project(Engine CXX)
 
 file(GLOB_RECURSE implementations implementations/*.cpp)
 set(implementations_dir "implementations")
@@ -13,21 +13,25 @@ set(sources
 	src/graphics/window.cpp
 	src/graphics/shader.cpp
 	src/graphics/mesh.cpp
+	src/graphics/vertex_array.cpp
 	src/common/logger.cpp
 	src/common/logger_provider.cpp
 	src/common/verify.cpp
-	src/processing/background_service.cpp
-	${third_party}/glad/glad.c)
+	src/processing/background_service.cpp)
 
 file(GLOB_RECURSE headers include/*.hpp)
 file(GLOB_RECURSE headers_implementations implementations/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${sources} ${implementations} ${headers} ${headers_implementations})
-target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE ${implementations_dir} ${third_party} ${third_party}/glad ${third_party}/glm)
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw fmt::fmt spdlog::spdlog glm::glm tinyobjloader)
+target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE ${implementations_dir} ${third_party} ${third_party}/glm)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw glad fmt::fmt spdlog::spdlog glm::glm tinyobjloader)
 
-if((${CMAKE_CXX_COMPILER_ID} MATCHES "Clang") OR(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU"))
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wno-unknown-pragmas -Wno-unused-function)
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wno-volatile -Wno-unused-function)
+endif()
+
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wno-unused-function)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")

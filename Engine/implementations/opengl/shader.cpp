@@ -7,19 +7,45 @@
 
 namespace OpenGL::Shader {
 
-	Shader::~Shader() { glDeleteProgram(program); }
+	Shader::~Shader() {
+		auto logger = get_logger("OpenGL::Shader");
+		logger.debug("Destructor for shader with name {}", shader_name);
 
-	void Shader::bind()
-	{
-		glUseProgram(program);
+		glDeleteProgram(program); }
+
+	void Shader::bind() { glUseProgram(program); }
+
+	namespace {
+		enum class ObjectType { Shader, Program };
 	}
 
-	Shader::Shader(const std::filesystem::path& vertex, const std::filesystem::path& fragment)
+	static auto read_error(auto object, ObjectType type)
+	{
+		static constexpr auto buffer_size = 512ul;
+		std::string buffer;
+		buffer.resize(buffer_size);
+
+		switch (type) {
+		case ObjectType::Shader: {
+			glGetShaderInfoLog(object, buffer_size, nullptr, buffer.data());
+			break;
+		}
+		case ObjectType::Program: {
+			glGetProgramInfoLog(object, buffer_size, nullptr, buffer.data());
+			break;
+		}
+		}
+
+		buffer.shrink_to_fit();
+		return buffer;
+	}
+
+	Shader::Shader(std::string_view name, const std::filesystem::path& vertex, const std::filesystem::path& fragment): shader_name(name)
 	{
 		Engine::Logging::Logger logger { "OpenGL::Shader" };
-		const auto vertex_file = read_file(vertex);
+		const auto vertex_file = Shader::read_file(vertex);
 		const auto vertex_data = vertex_file.c_str();
-		const auto fragment_file = read_file(fragment);
+		const auto fragment_file = Shader::read_file(fragment);
 		const auto fragment_data = fragment_file.c_str();
 
 		static const auto compile = [&logger = logger](GLenum type, auto data) {
@@ -30,9 +56,11 @@ namespace OpenGL::Shader {
 			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
 			if (!success) {
-				GLchar info_log[512];
-				glGetShaderInfoLog(shader, 512, nullptr, info_log);
-				logger.error("{} shader compilation failure. Info: {}", type == GL_VERTEX_SHADER ? "Vertex" : "Fragment", info_log);
+				auto info_log = read_error(shader, ObjectType::Shader);
+				const auto size = info_log.size() == 0 ? "Empty": std::to_string(info_log.size());
+				const auto info_data = info_log.empty() ? "No data" : info_log;
+				logger.error("{} shader compilation failure. Info: Size: {}, Data: {}", type == GL_VERTEX_SHADER ? "Vertex" : "Fragment",
+					size, info_data);
 				throw Engine::Errors::Graphics::InitialisationException();
 			}
 			return shader;
@@ -49,9 +77,12 @@ namespace OpenGL::Shader {
 		GLint success;
 		glGetProgramiv(program, GL_LINK_STATUS, &success);
 		if (!success) {
-			GLchar info_log[512];
-			glGetProgramInfoLog(program, 512, nullptr, info_log);
-			logger.error("Shader linking failure. Info: {}", info_log);
+			auto info_log = read_error(program, ObjectType::Program);
+			const auto size = info_log.size() == 0 ? "Empty": std::to_string(info_log.size());
+			const auto info_data = info_log.empty() ? "No data" : info_log;
+			logger.error("Shader linking failure. Info: Size: {}, Data: {}",
+				size, info_data);
+
 		}
 		glDeleteShader(vertex_shader);
 		glDeleteShader(fragment_shader);

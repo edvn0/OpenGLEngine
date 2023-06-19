@@ -8,3 +8,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(Modules)
 add_subdirectory(Engine)
 add_subdirectory(Application)
+
+add_custom_target(copy-assets ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Assets ${CMAKE_BINARY_DIR}/Application/Assets)
+add_dependencies(Application copy-assets)

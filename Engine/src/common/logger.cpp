@@ -50,4 +50,34 @@ namespace Engine::Logging {
 		core_logger->error(formatted);
 	};
 
+	void DefaultLogger::info(std::string_view format, fmt::format_args&& args) const
+	{
+		const auto formatted = fmt::vformat(format, args);
+		core_logger->info(formatted);
+	};
+
+	void DefaultLogger::debug(std::string_view format, fmt::format_args&& args) const
+	{
+		const auto formatted = fmt::vformat(format, args);
+		core_logger->debug(formatted);
+	};
+
+	void DefaultLogger::trace(std::string_view format, fmt::format_args&& args) const
+	{
+		const auto formatted = fmt::vformat(format, args);
+		core_logger->trace(formatted);
+	};
+
+	void DefaultLogger::warning(std::string_view format, fmt::format_args&& args) const
+	{
+		const auto formatted = fmt::vformat(format, args);
+		core_logger->warn(formatted);
+	};
+
+	void DefaultLogger::error(std::string_view format, fmt::format_args&& args) const
+	{
+		const auto formatted = fmt::vformat(format, args);
+		core_logger->error(formatted);
+	};
+
 } // namespace Engine::Logging

@@ -5,6 +5,7 @@
 #include "graphics/graphics.hpp"
 #include "graphics/mesh.hpp"
 #include "graphics/shader.hpp"
+#include "graphics/vertex_array.hpp"
 #include "main.hpp"
 #include "startup/startup.hpp"
 
@@ -25,11 +26,7 @@ public:
 
 private:
 	Logging::Logger logger;
-	RefPtr<std::thread::id> to_initialise;
 	RefPtr<Graphics::Shader::Shader> shader;
-	RefPtr<Graphics::Shader::Shader> something;
 	RefPtr<Graphics::Mesh::Mesh> mesh;
-
-	GLuint VBO { 0 };
-	GLuint VAO { 0 };
+	RefPtr<Graphics::VertexArray::VertexArray> va;
 };
