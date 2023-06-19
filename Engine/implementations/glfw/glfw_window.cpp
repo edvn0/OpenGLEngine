@@ -95,6 +95,7 @@ namespace GLFW::Window {
 	bool Window::should_close() const { return glfwWindowShouldClose(handle); }
 
 	void Window::update() { glfwSwapBuffers(handle); }
+	
 	void Window::poll() { glfwPollEvents(); }
 
 } // namespace GLFW::Window

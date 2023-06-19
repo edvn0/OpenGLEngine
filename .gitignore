@@ -6,6 +6,10 @@ build
 cmake-build*
 .idea
 
+window_settings.conf
+*.log
+*.cap
+
 !Assets
 
 ### C ###

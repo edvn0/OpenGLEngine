@@ -2,6 +2,8 @@
 // Created by edwinc on 6/19/23.
 //
 
+#include "common/types.hpp"
+
 #include <concepts>
 #include <type_traits>
 #include <vector>
@@ -13,41 +15,44 @@ namespace Engine::Core::ExecutionScope {
 		concept same = std::is_same_v<From, To>;
 	}
 
-	template<class T>
+	template <class T>
 	concept Bindable = requires(RefPtr<T> t) {
 		{
 			t->bind()
 		} -> same<void>;
 	};
 
-	template<class T>
+	template <class T>
 	concept Unbindable = requires(RefPtr<T> t) {
 		{
 			t->unbind()
 		} -> same<void>;
 	};
 
-	template<typename T> requires Bindable<T> && Unbindable<T>
+	template <typename T>
+		requires Bindable<T> && Unbindable<T>
 	class ExecutionScope {
 	public:
-		[[maybe_unused]] explicit ExecutionScope(RefPtr<T> t):scoped_t(t) {
+		[[maybe_unused]] explicit ExecutionScope(RefPtr<T> t)
+			: scoped_t(t)
+		{
 			scoped_t->bind();
 		};
 
-		~ExecutionScope() {
-			scoped_t->unbind();
-		}
+		~ExecutionScope() { scoped_t->unbind(); }
 
-		auto operator ->() {
-			return *scoped_t;
-		}
-
-		auto operator ->()const {
-			return *scoped_t;
-		}
+		auto operator->() { return *scoped_t; }
+		auto operator->() const { return *scoped_t; }
 
 	private:
 		RefPtr<T> scoped_t;
 	};
 
-}
+	template <typename... T> class Scope {
+		public:
+		Scope(std::initializer_list<T...> list):data(list) {}
+	private:
+		std::vector<RefPtr<T>...> data;
+	};
+
+} // namespace Engine::Core::ExecutionScope
