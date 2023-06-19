@@ -2,7 +2,10 @@
 // Created by edwinc on 6/19/23.
 //
 
+#include "common/clock.hpp"
+#include "common/logger.hpp"
 #include "common/types.hpp"
+#include "core/bindable.hpp"
 
 #include <concepts>
 #include <type_traits>
@@ -29,17 +32,18 @@ namespace Engine::Core::ExecutionScope {
 		} -> same<void>;
 	};
 
-	template <typename T>
-		requires Bindable<T> && Unbindable<T>
-	class ExecutionScope {
+	template <class T>
+	concept Scopeable = Unbindable<T> && Bindable<T>;
+
+	template <Scopeable T> class SingleExecutionScope {
 	public:
-		[[maybe_unused]] explicit ExecutionScope(RefPtr<T> t)
+		[[maybe_unused]] explicit SingleExecutionScope(RefPtr<T> t)
 			: scoped_t(t)
 		{
 			scoped_t->bind();
 		};
 
-		~ExecutionScope() { scoped_t->unbind(); }
+		~SingleExecutionScope() { scoped_t->unbind(); }
 
 		auto operator->() { return *scoped_t; }
 		auto operator->() const { return *scoped_t; }
@@ -48,11 +52,52 @@ namespace Engine::Core::ExecutionScope {
 		RefPtr<T> scoped_t;
 	};
 
-	template <typename... T> class Scope {
-		public:
-		Scope(std::initializer_list<T...> list):data(list) {}
+	namespace {
+		struct Stopwatch {
+			double start { Clock::Clock::time_ns() };
+
+			double elapsed_ms() { return (Clock::Clock::time_ns() - start) / 1000.0; }
+		};
+	} // namespace
+
+	template <Scopeable T, bool Profiled = false> class Scope {
+	public:
+		[[maybe_unused]] explicit Scope(std::initializer_list<RefPtr<T>> ptrs)
+			: data(ptrs)
+		{
+			inside_scope([&data = data]() {
+				for (auto& scoped : data) {
+					scoped->bind();
+				}
+			});
+		}
+
+		~Scope()
+		{
+			inside_scope([&data = data]() {
+				for (auto i = data.rbegin(); i != data.rend(); ++i) {
+					auto scoped = *i;
+					scoped->unbind();
+				}
+			});
+		}
+
 	private:
-		std::vector<RefPtr<T>...> data;
+		template <typename F> auto inside_scope(F&& func)
+		{
+			if constexpr (Profiled) {
+				Stopwatch watch;
+				func();
+				logger.debug("Time taken: {:3f}", watch.elapsed_ms());
+			} else {
+				func();
+			}
+		}
+		std::vector<RefPtr<T>> data;
+		Logging::Logger logger { get_logger("ExecutionScope::Scope") };
 	};
+
+	using ExecutionScope = Engine::Core::ExecutionScope::Scope<Engine::Core::Bindable::Bindable, false>;
+	using ProfiledExecutionScope = Engine::Core::ExecutionScope::Scope<Engine::Core::Bindable::Bindable, true>;
 
 } // namespace Engine::Core::ExecutionScope

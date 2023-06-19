@@ -1,6 +1,4 @@
-//
-// Created by edwinc on 6/19/23.
-//
+#pragma once
 
 namespace Engine::Core::Bindable {
 	class Bindable {

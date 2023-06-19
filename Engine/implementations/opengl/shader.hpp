@@ -12,6 +12,7 @@ namespace OpenGL::Shader {
 		~Shader() override;
 
 		virtual void bind() override;
+		virtual void unbind() override {}
 
 		std::string_view get_identifier() override { return shader_name; }
 

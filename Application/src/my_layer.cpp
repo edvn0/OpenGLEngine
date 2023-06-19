@@ -44,8 +44,7 @@ void MyLayer::on_update(std::float_t)
 
 	// Draw our first triangle
 	{
-		Engine::Core::ExecutionScope::Scope s ({&va, &shader});
-		Engine::Core::ExecutionScope::ExecutionScope scope { va };
+		Engine::Core::ExecutionScope::ProfiledExecutionScope s({ va, shader });
 		shader->bind();
 		mesh->draw();
 	}
