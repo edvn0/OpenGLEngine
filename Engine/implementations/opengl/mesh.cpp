@@ -21,7 +21,7 @@
 
 namespace OpenGL::Mesh {
 
-	static std::tuple<std::vector<Engine::Graphics::Mesh::Vertex>, std::vector<std::uint32_t>> read_obj(const std::filesystem::path& path)
+	static std::tuple<std::vector<Engine::Graphics::Vertex::Vertex>, std::vector<std::uint32_t>> read_obj(const std::filesystem::path& path)
 	{
 		Engine::Logging::Logger logger { "OpenGL::Mesh" };
 		std::string input_file = path.string();
@@ -47,8 +47,8 @@ namespace OpenGL::Mesh {
 		auto& materials = reader.GetMaterials();
 		(void)materials;
 
-		std::vector<Engine::Graphics::Mesh::Vertex> vertices;
-		std::unordered_map<Engine::Graphics::Mesh::Vertex, uint32_t> unique_vertices;
+		std::vector<Engine::Graphics::Vertex::Vertex> vertices;
+		std::unordered_map<Engine::Graphics::Vertex::Vertex, uint32_t> unique_vertices;
 		std::vector<std::uint32_t> indices;
 
 		// Loop over shapes
@@ -62,7 +62,7 @@ namespace OpenGL::Mesh {
 				glm::vec3 normals { attributes.normals[3 * index.vertex_index + 0], attributes.normals[3 * index.vertex_index + 1],
 					attributes.normals[3 * index.vertex_index + 2] };
 
-				Engine::Graphics::Mesh::Vertex vertex { position, tex_coords, normals };
+				Engine::Graphics::Vertex::Vertex vertex { position, tex_coords, normals };
 
 				if (!unique_vertices.contains(vertex)) {
 					unique_vertices[vertex] = static_cast<uint32_t>(vertices.size());

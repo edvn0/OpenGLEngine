@@ -23,3 +23,4 @@ namespace Engine::Logging {
 		inline static RefPtr<spdlog::logger> application_logger;
 	};
 } // namespace Engine::Logging
+

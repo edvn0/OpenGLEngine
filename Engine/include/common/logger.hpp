@@ -9,11 +9,10 @@
 #include <iterator>
 #include <string_view>
 
-// clang-format off
 namespace spdlog {
 	class logger;
 }
-// clang-format on
+
 namespace Engine {
 	using namespace std::string_view_literals;
 }
@@ -52,7 +51,6 @@ namespace Engine::Logging {
 		void warning(std::string_view format, fmt::format_args&& args = {}) const override;
 		void error(std::string_view format, fmt::format_args&& args = {}) const override;
 
-
 	private:
 		RefPtr<spdlog::logger> core_logger;
 	};
@@ -84,7 +82,7 @@ namespace Engine::Logging {
 		template <typename... Args> void info(std::string_view format, Args&&... args)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->info(f, fmt::make_format_args(args...));
 			}
 		}
@@ -92,7 +90,7 @@ namespace Engine::Logging {
 		void info(std::string_view format)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				if (f.empty())
 					return;
 				logger->info(f);
@@ -102,7 +100,7 @@ namespace Engine::Logging {
 		template <typename... Args> void debug(std::string_view format, Args&&... args)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->debug(f, fmt::make_format_args(args...));
 			}
 		}
@@ -110,7 +108,7 @@ namespace Engine::Logging {
 		void debug(std::string_view format)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->debug(f);
 			}
 		}
@@ -118,7 +116,7 @@ namespace Engine::Logging {
 		template <typename... Args> void trace(std::string_view format, Args&&... args)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->trace(f, fmt::make_format_args(args...));
 			}
 		}
@@ -126,7 +124,7 @@ namespace Engine::Logging {
 		void trace(std::string_view format)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->trace(f);
 			}
 		}
@@ -134,7 +132,7 @@ namespace Engine::Logging {
 		template <typename... Args> void warning(std::string_view format, Args&&... args)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->warning(f, fmt::make_format_args(args...));
 			}
 		}
@@ -142,7 +140,7 @@ namespace Engine::Logging {
 		void warning(std::string_view format)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->warning(f);
 			}
 		}
@@ -150,7 +148,7 @@ namespace Engine::Logging {
 		template <typename... Args> void error(std::string_view format, Args&&... args)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->error(f, fmt::make_format_args(args...));
 			}
 		}
@@ -158,7 +156,7 @@ namespace Engine::Logging {
 		void error(std::string_view format)
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->error(f);
 			}
 		}
@@ -166,7 +164,7 @@ namespace Engine::Logging {
 		template <typename... Args> void info(std::string_view format, Args&&... args) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->info(f, fmt::make_format_args(args...));
 			}
 		}
@@ -174,7 +172,7 @@ namespace Engine::Logging {
 		void info(std::string_view format) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				if (f.empty())
 					return;
 				logger->info(f);
@@ -184,7 +182,7 @@ namespace Engine::Logging {
 		template <typename... Args> void debug(std::string_view format, Args&&... args) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->debug(f, fmt::make_format_args(args...));
 			}
 		}
@@ -192,7 +190,7 @@ namespace Engine::Logging {
 		void debug(std::string_view format) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->debug(f);
 			}
 		}
@@ -200,7 +198,7 @@ namespace Engine::Logging {
 		template <typename... Args> void trace(std::string_view format, Args&&... args) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->trace(f, fmt::make_format_args(args...));
 			}
 		}
@@ -208,7 +206,7 @@ namespace Engine::Logging {
 		void trace(std::string_view format) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->trace(f);
 			}
 		}
@@ -216,7 +214,7 @@ namespace Engine::Logging {
 		template <typename... Args> void warning(std::string_view format, Args&&... args) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->warning(f, fmt::make_format_args(args...));
 			}
 		}
@@ -224,7 +222,7 @@ namespace Engine::Logging {
 		void warning(std::string_view format) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->warning(f);
 			}
 		}
@@ -232,7 +230,7 @@ namespace Engine::Logging {
 		template <typename... Args> void error(std::string_view format, Args&&... args) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->error(f, fmt::make_format_args(args...));
 			}
 		}
@@ -240,7 +238,7 @@ namespace Engine::Logging {
 		void error(std::string_view format) const
 		{
 			if constexpr (!is_release) {
-				const auto f = fmt::format("{}::{}", logging_scope, format);
+				const auto f = fmt::format(logger_base_format, logging_scope, format);
 				logger->error(f);
 			}
 		}
@@ -248,6 +246,7 @@ namespace Engine::Logging {
 	private:
 		ScopePtr<ILogger> logger;
 		std::string_view logging_scope { "" };
+		static constexpr std::string_view logger_base_format { "{}::{}" };
 	};
 
 } // namespace Engine::Logging

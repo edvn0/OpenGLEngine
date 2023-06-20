@@ -7,7 +7,8 @@
 #include <spdlog/spdlog.h>
 
 // clang-format off
-#include "logger_provider_fs_path.inl"
+#include "common/logger_provider_fs_path.inl"
+#include "common/logger_provider_vertex.inl"
 // clang-format on
 
 namespace Engine::Logging {

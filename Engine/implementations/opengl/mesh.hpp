@@ -13,7 +13,10 @@
 #include <glad/glad.h>
 
 namespace OpenGL::Mesh {
-	class Mesh : public Engine::Graphics::Mesh::Mesh {
+
+	using namespace Engine::Graphics;
+
+	class Mesh final : public Engine::Graphics::Mesh::Mesh {
 	public:
 		~Mesh() override;
 
@@ -24,6 +27,6 @@ namespace OpenGL::Mesh {
 
 	private:
 		std::string mesh_name;
-		Engine::RefPtr<Engine::Graphics::VertexArray::VertexArray> vao;
+		Engine::RefPtr<VertexArray::VertexArray> vao;
 	};
 } // namespace OpenGL::Mesh

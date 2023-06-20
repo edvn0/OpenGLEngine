@@ -1,3 +1,7 @@
+#pragma once
+
+#include <fmt/format.h>
+
 template <> struct fmt::formatter<std::filesystem::path> {
 	char presentation = 's';
 

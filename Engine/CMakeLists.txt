@@ -14,6 +14,7 @@ set(sources
 	src/graphics/shader.cpp
 	src/graphics/mesh.cpp
 	src/graphics/vertex_array.cpp
+	src/graphics/buffer_object.cpp
 	src/common/logger.cpp
 	src/common/logger_provider.cpp
 	src/common/verify.cpp
@@ -23,7 +24,7 @@ file(GLOB_RECURSE headers include/*.hpp)
 file(GLOB_RECURSE headers_implementations implementations/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${sources} ${implementations} ${headers} ${headers_implementations})
-target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE ${implementations_dir} ${third_party} ${third_party}/glm)
+target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${implementations_dir} ${third_party} ${third_party}/glm)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw glad fmt::fmt spdlog::spdlog glm::glm tinyobjloader)
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

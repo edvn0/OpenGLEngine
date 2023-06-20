@@ -7,6 +7,7 @@
 #include "common/identifiable.hpp"
 #include "common/types.hpp"
 #include "core/bindable.hpp"
+#include "graphics/buffer_object.hpp"
 #include "graphics/mesh.hpp"
 
 #include <cstdint>
@@ -22,7 +23,7 @@ namespace Engine::Graphics::VertexArray {
 		virtual std::size_t index_count() const = 0;
 		virtual std::size_t vertex_count() const = 0;
 
-		static RefPtr<VertexArray> construct(std::vector<Engine::Graphics::Mesh::Vertex>&& vertices, std::vector<std::uint32_t>&& indices);
+		static RefPtr<VertexArray> construct(std::vector<Engine::Graphics::Vertex::Vertex>&& vertices, std::vector<std::uint32_t>&& indices);
 	};
 
 } // namespace Engine::Graphics::VertexArray
