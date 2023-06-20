@@ -8,7 +8,7 @@ layout (location = 0) out vec2 out_tex;
 layout (location = 1) out vec3 out_normals;
 
 void main() {
-    gl_Position = vec4(position.x, position.y, position.z, 1.0f);
+    gl_Position = position;
     out_tex = tex;
     out_normals = normals;
 }

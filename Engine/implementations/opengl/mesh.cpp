@@ -24,7 +24,7 @@ namespace OpenGL::Mesh {
 		Engine::Logging::Logger logger { "OpenGL::Mesh" };
 		std::string input_file = path.string();
 		tinyobj::ObjReaderConfig reader_config;
-		reader_config.mtl_search_path = path.parent_path().string(); // Path to material files
+		reader_config.mtl_search_path = path.parent_path().string();
 
 		tinyobj::ObjReader reader;
 

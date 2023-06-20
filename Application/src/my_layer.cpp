@@ -27,7 +27,6 @@ void MyLayer::on_create()
 #endif
 
 	va = Graphics::VertexArray::VertexArray::construct();
-
 	va->bind();
 	mesh = Graphics::Mesh::Mesh::construct("Assets/Models/sphere.obj");
 	va->unbind();
@@ -35,8 +34,6 @@ void MyLayer::on_create()
 
 void MyLayer::on_update(std::float_t)
 {
-	// Render
-	// Clear the colorbuffer
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
