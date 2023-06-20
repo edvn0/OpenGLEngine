@@ -9,6 +9,7 @@ namespace OpenGL::BufferObject {
 	public:
 		~VertexBuffer() override;
 		explicit VertexBuffer(std::vector<Engine::Graphics::Vertex::Vertex>&& vertices);
+		VertexBuffer(const void* data, std::size_t size);
 
 		void bind() override;
 		void unbind() override;

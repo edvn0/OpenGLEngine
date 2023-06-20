@@ -33,6 +33,30 @@ namespace OpenGL::BufferObject {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	VertexBuffer::VertexBuffer(const void* data, std::size_t size)
+	{
+
+		glGenBuffers(1, &object);
+		glBindBuffer(GL_ARRAY_BUFFER, object);
+
+		using V = Engine::Graphics::Vertex::Vertex;
+		constexpr auto vertex_size = sizeof(V);
+		vertices = size / vertex_size;
+
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, vertex_size, std::bit_cast<const void*>(nullptr));
+		glEnableVertexAttribArray(0);
+
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, vertex_size, std::bit_cast<const void*>(offsetof(V, tex_coord)));
+		glEnableVertexAttribArray(1);
+
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, vertex_size, std::bit_cast<const void*>(offsetof(V, normal)));
+		glEnableVertexAttribArray(2);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
 	VertexBuffer::~VertexBuffer() { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 
 	void VertexBuffer::bind() { glBindBuffer(GL_ARRAY_BUFFER, object); }

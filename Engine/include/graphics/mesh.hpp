@@ -18,6 +18,7 @@ namespace Engine::Graphics::Mesh {
 		virtual void draw() const {};
 
 		static RefPtr<Mesh> construct(const std::filesystem::path&);
+		static RefPtr<Mesh> construct(std::string_view, const void*, std::size_t);
 	};
 
 } // namespace Engine::Graphics::Mesh

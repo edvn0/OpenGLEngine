@@ -13,4 +13,9 @@ namespace Engine::Graphics::VertexArray {
 		return construct_ref<OpenGL::VertexArray::VertexArray>(std::move(vertices), std::move(indices));
 	}
 
+	RefPtr<VertexArray> VertexArray::construct(const void* data, std::size_t size)
+	{
+		return construct_ref<OpenGL::VertexArray::VertexArray>(data, size);
+	}
+
 } // namespace Engine::Graphics::VertexArray

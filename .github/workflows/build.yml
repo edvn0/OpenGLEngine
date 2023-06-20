@@ -24,6 +24,8 @@ jobs:
 
       - name: Install Linux dependencies
         run: |
+          sudo sed -i 's/azure\.//' /etc/apt/sources.list
+          sudo apt-get update
           sudo apt-get install libxrandr-dev libxinerama-dev libxi-dev libxcursor-dev libglew-dev
 
       - name: Export ccache to path

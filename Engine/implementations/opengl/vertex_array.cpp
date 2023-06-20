@@ -4,6 +4,8 @@
 
 #include "opengl/vertex_array.hpp"
 
+#include "vertex_array.hpp"
+
 #include <glad/glad.h>
 
 namespace OpenGL::VertexArray {
@@ -19,16 +21,24 @@ namespace OpenGL::VertexArray {
 		glBindVertexArray(0);
 	}
 
+	VertexArray::VertexArray(const void* data, std::size_t size)
+	{
+		vbo = Engine::Graphics::BufferObject::VertexBuffer::construct(data, size);
+		ibo = nullptr;
+	}
+
 	void VertexArray::bind()
 	{
 		glBindVertexArray(vao);
-		ibo->bind();
+		if (ibo)
+			ibo->bind();
 		vbo->bind();
 	}
 
 	void VertexArray::unbind()
 	{
-		ibo->unbind();
+		if (ibo)
+			ibo->unbind();
 		vbo->unbind();
 		glBindVertexArray(0);
 	}

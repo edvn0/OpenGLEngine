@@ -86,9 +86,10 @@ namespace OpenGL::Mesh {
 		logger.debug("Destroying mesh with name {}!", mesh_name);
 	}
 
-	Mesh::Mesh(std::string_view name, const void*, std::size_t)
+	Mesh::Mesh(std::string_view name, const void*data, std::size_t size)
 		: mesh_name(name)
 	{
+		vao = Engine::Graphics::VertexArray::VertexArray::construct(data, size);
 	}
 
 	Mesh::Mesh(const std::filesystem::path& path)
@@ -101,7 +102,10 @@ namespace OpenGL::Mesh {
 	void Mesh::draw() const
 	{
 		vao->bind();
-		glDrawElements(GL_TRIANGLES, vao->index_count(), GL_UNSIGNED_INT, nullptr);
+		if (vao->has_index_buffer())
+			glDrawElements(GL_TRIANGLES, vao->index_count(), GL_UNSIGNED_INT, nullptr);
+		else
+			glDrawArrays(GL_TRIANGLES, 0, vao->vertex_count());
 		vao->unbind();
 	}
 

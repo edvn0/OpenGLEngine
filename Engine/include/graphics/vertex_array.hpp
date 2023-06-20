@@ -23,7 +23,10 @@ namespace Engine::Graphics::VertexArray {
 		virtual std::size_t index_count() const = 0;
 		virtual std::size_t vertex_count() const = 0;
 
+		virtual bool has_index_buffer() const = 0;
+
 		static RefPtr<VertexArray> construct(std::vector<Engine::Graphics::Vertex::Vertex>&& vertices, std::vector<std::uint32_t>&& indices);
+		static RefPtr<VertexArray> construct(const void* data, std::size_t size);
 	};
 
 } // namespace Engine::Graphics::VertexArray

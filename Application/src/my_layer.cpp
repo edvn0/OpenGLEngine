@@ -5,6 +5,7 @@
 #include "graphics/mesh.hpp"
 #include "graphics/shader.hpp"
 #include "graphics/vertex_array.hpp"
+#include "graphics/buffer_object.hpp"
 #include "processing/background_service.hpp"
 
 #include <thread>
@@ -27,6 +28,13 @@ void MyLayer::on_create()
 #endif
 
 	mesh = Graphics::Mesh::Mesh::construct("Assets/Models/sphere.obj");
+
+  using V = Engine::Graphics::Vertex::Vertex;
+
+  std::vector<V> vertices;
+  vertices.push_back(V{.pos=glm::vec4{1.0}, .tex_coord=glm::vec2{1.0}, .normal=glm::vec3{1.0}});
+
+  made_up = Graphics::Mesh::Mesh::construct("Triangle", vertices.data(), vertices.size() * sizeof(V));
 }
 
 void MyLayer::on_update(std::float_t)
@@ -40,7 +48,8 @@ void MyLayer::on_update(std::float_t)
 	{
 		shader->bind();
 		mesh->draw();
-	}
+	  made_up->draw();
+  }
 }
 
 void MyLayer::on_delete() { }

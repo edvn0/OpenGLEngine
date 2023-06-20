@@ -13,6 +13,7 @@ namespace OpenGL::VertexArray {
 	class VertexArray : public Engine::Graphics::VertexArray::VertexArray {
 	public:
 		VertexArray(std::vector<Engine::Graphics::Vertex::Vertex>&& vertices, std::vector<std::uint32_t>&& indices);
+		VertexArray(const void* data, std::size_t size);
 		~VertexArray() override;
 
 		void bind() override;
@@ -22,6 +23,8 @@ namespace OpenGL::VertexArray {
 
 		std::size_t index_count() const override { return ibo->count(); };
 		std::size_t vertex_count() const override { return vbo->count(); };
+
+		bool has_index_buffer() const { return ibo != nullptr; }
 
 	private:
 		GLuint vao { 0 };

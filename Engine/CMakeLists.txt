@@ -28,11 +28,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC include PRIVATE ${CMAKE_CURREN
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw glad fmt::fmt spdlog::spdlog glm::glm tinyobjloader)
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wno-volatile -Wno-unused-function)
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wpedantic -Wno-volatile -Wno-unused-function)
 endif()
 
 if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wno-unused-function)
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wpedantic -Wno-unused-function)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")

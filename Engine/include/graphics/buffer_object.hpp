@@ -52,6 +52,7 @@ namespace Engine::Graphics::BufferObject {
 		virtual std::size_t count() const = 0;
 
 		static RefPtr<VertexBuffer> construct(std::vector<Engine::Graphics::Vertex::Vertex>&& vertices);
+		static RefPtr<VertexBuffer> construct(const void*, std::size_t);
 	};
 
 	class IndexBuffer : public Engine::Core::Bindable::Bindable, Engine::Common::Identifiable::Identifiable {
