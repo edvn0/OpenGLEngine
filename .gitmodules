@@ -1,0 +1,15 @@
+[submodule "Modules/fmt"]
+	path = Modules/fmt
+	url = git@github.com:edvn0/fmt.git
+[submodule "Modules/tinyobjloader"]
+	path = Modules/tinyobjloader
+	url = git@github.com:edvn0/tinyobjloader.git
+[submodule "Modules/glm"]
+	path = Modules/glm
+	url = git@github.com:edvn0/glm.git
+[submodule "Modules/glfw"]
+	path = Modules/glfw
+	url = git@github.com:edvn0/glfw
+[submodule "Modules/spdlog"]
+	path = Modules/spdlog
+	url = git@github.com:edvn0/spdlog
