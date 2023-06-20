@@ -8,6 +8,9 @@
 
 namespace Engine::Graphics::VertexArray {
 
-	RefPtr<VertexArray> VertexArray::construct() { return construct_ref<OpenGL::VertexArray::VertexArray>(); }
+	RefPtr<VertexArray> VertexArray::construct(std::vector<Engine::Graphics::Mesh::Vertex>&& vertices, std::vector<std::uint32_t>&& indices)
+	{
+		return construct_ref<OpenGL::VertexArray::VertexArray>(std::move(vertices), std::move(indices));
+	}
 
-}
+} // namespace Engine::Graphics::VertexArray

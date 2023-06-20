@@ -28,5 +28,4 @@ private:
 	Logging::Logger logger;
 	RefPtr<Graphics::Shader::Shader> shader;
 	RefPtr<Graphics::Mesh::Mesh> mesh;
-	RefPtr<Graphics::VertexArray::VertexArray> va;
 };

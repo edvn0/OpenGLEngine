@@ -39,7 +39,6 @@ namespace Engine::Startup {
 		std::float_t start { Clock::Clock::time_ms() };
 		std::float_t ts { 10.f };
 
-		static std::size_t number_frames { 0 };
 		while (!window->should_close()) {
 			window->poll();
 
@@ -51,11 +50,8 @@ namespace Engine::Startup {
 			window->update();
 
 			double current_time = Clock::Clock::time_ms();
-			number_frames++;
 			ts = current_time - start;
 			if (current_time - start >= 1000.0) {
-				logger.debug("Frametime: {:2f}ms", 1000.0 / static_cast<double>(number_frames));
-				number_frames = 0;
 				start += 1000.0;
 			}
 		}

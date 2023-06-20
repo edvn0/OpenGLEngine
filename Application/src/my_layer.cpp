@@ -26,10 +26,7 @@ void MyLayer::on_create()
 	});
 #endif
 
-	va = Graphics::VertexArray::VertexArray::construct();
-	va->bind();
 	mesh = Graphics::Mesh::Mesh::construct("Assets/Models/sphere.obj");
-	va->unbind();
 }
 
 void MyLayer::on_update(std::float_t)
@@ -41,7 +38,6 @@ void MyLayer::on_update(std::float_t)
 
 	// Draw our first triangle
 	{
-		Engine::Core::ExecutionScope::ProfiledExecutionScope s({ va, shader });
 		shader->bind();
 		mesh->draw();
 	}

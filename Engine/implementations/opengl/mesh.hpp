@@ -6,6 +6,7 @@
 
 #include "common/types.hpp"
 #include "graphics/mesh.hpp"
+#include "graphics/vertex_array.hpp"
 
 #include <cstdint>
 #include <filesystem>
@@ -23,9 +24,6 @@ namespace OpenGL::Mesh {
 
 	private:
 		std::string mesh_name;
-		GLuint vertex_object;
-		GLuint index_object;
-		std::size_t vertex_count;
-		std::size_t index_count;
+		Engine::RefPtr<Engine::Graphics::VertexArray::VertexArray> vao;
 	};
 } // namespace OpenGL::Mesh

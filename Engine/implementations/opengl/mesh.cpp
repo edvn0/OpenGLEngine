@@ -8,6 +8,8 @@
 #include "common/verify.hpp"
 #include "opengl/mesh.hpp"
 
+#include <cstddef>
+
 #define TINYOBJLOADER_IMPLEMENTATION // define this in only *one* .cc
 #define TINYOBJLOADER_USE_MAPBOX_EARCUT
 #include <glm/glm.hpp>
@@ -62,7 +64,7 @@ namespace OpenGL::Mesh {
 
 				Engine::Graphics::Mesh::Vertex vertex { position, tex_coords, normals };
 
-				if (unique_vertices.count(vertex) == 0) {
+				if (!unique_vertices.contains(vertex)) {
 					unique_vertices[vertex] = static_cast<uint32_t>(vertices.size());
 					vertices.push_back(vertex);
 				}
@@ -82,9 +84,6 @@ namespace OpenGL::Mesh {
 	{
 		auto logger = get_logger("OpenGL::Mesh");
 		logger.debug("Destroying mesh with name {}!", mesh_name);
-
-		glDeleteBuffers(1, &vertex_object);
-		glDeleteBuffers(1, &index_object);
 	}
 
 	Mesh::Mesh(std::string_view name, const void*, std::size_t)
@@ -96,38 +95,14 @@ namespace OpenGL::Mesh {
 		: mesh_name(path.filename().string())
 	{
 		auto&& [vertices, indices] = read_obj(path);
-
-		vertex_count = vertices.size();
-		index_count = indices.size();
-
-		glGenBuffers(1, &vertex_object);
-		glBindBuffer(GL_ARRAY_BUFFER, vertex_object);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Engine::Graphics::Mesh::Vertex) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), std::bit_cast<const void*>(4 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), std::bit_cast<const void*>(4 * sizeof(GLfloat) + 3 * sizeof(GLfloat)));
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		glGenBuffers(1, &index_object);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_object);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_count * sizeof(uint32_t), indices.data(), GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		vao = Engine::Graphics::VertexArray::VertexArray::construct(std::move(vertices), std::move(indices));
 	}
 
 	void Mesh::draw() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, vertex_object);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_object);
-
-		glDrawElements(GL_TRIANGLE_STRIP, index_count, GL_UNSIGNED_INT, nullptr);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		vao->bind();
+		glDrawElements(GL_TRIANGLES, vao->index_count(), GL_UNSIGNED_INT, nullptr);
+		vao->unbind();
 	}
 
 } // namespace OpenGL::Mesh
