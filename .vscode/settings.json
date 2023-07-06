@@ -85,4 +85,8 @@
 		"buffer": "cpp",
 		"netfwd": "cpp"
 	},
+	"cSpell.words": [
+		"quat",
+		"unrev"
+	],
 }

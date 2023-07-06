@@ -24,7 +24,7 @@ namespace OpenGL::VertexArray {
 		std::size_t index_count() const override { return ibo->count(); };
 		std::size_t vertex_count() const override { return vbo->count(); };
 
-		bool has_index_buffer() const { return ibo != nullptr; }
+		bool has_index_buffer() const override { return ibo != nullptr; }
 
 	private:
 		GLuint vao { 0 };

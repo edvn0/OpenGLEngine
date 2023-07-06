@@ -1,6 +1,7 @@
 #include "startup/startup.hpp"
 
 #include "common/clock.hpp"
+#include "core/input.hpp"
 #include "graphics/context.hpp"
 #include "graphics/graphics.hpp"
 #include "graphics/window.hpp"
@@ -42,7 +43,6 @@ namespace Engine::Startup {
 		while (!window->should_close()) {
 			window->poll();
 
-			// Construct and initialise layers
 			for (auto& layer : layers) {
 				layer->on_update(ts);
 			}

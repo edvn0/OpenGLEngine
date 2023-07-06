@@ -3,6 +3,7 @@
 #include "common/logger.hpp"
 #include "common/types.hpp"
 #include "common/verify.hpp"
+#include "core/input.hpp"
 #include "errors/graphics_exception.hpp"
 #include "processing/background_service.hpp"
 
@@ -82,6 +83,8 @@ namespace GLFW::Window {
 		glfwSwapInterval(1);
 
 		glfwSetKeyCallback(handle, on_key_event);
+
+		Engine::Core::Input::setup_window_pointer(handle);
 	}
 
 	Window::~Window()

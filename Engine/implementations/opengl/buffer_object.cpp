@@ -66,9 +66,6 @@ namespace OpenGL::BufferObject {
 	IndexBuffer::IndexBuffer(std::vector<std::uint32_t>&& input_indices)
 	{
 		indices = input_indices.size();
-		auto logger = get_logger("IndexBuffer::IndexBuffer");
-		logger.debug("{}", fmt::join(input_indices, ", "));
-
 		glGenBuffers(1, &object);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, input_indices.size() * sizeof(uint32_t), input_indices.data(), GL_STATIC_DRAW);

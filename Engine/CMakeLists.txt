@@ -15,6 +15,9 @@ set(sources
 	src/graphics/mesh.cpp
 	src/graphics/vertex_array.cpp
 	src/graphics/buffer_object.cpp
+	src/graphics/uniform_buffer.cpp
+	src/core/input.cpp
+	src/scene/scene_camera.cpp
 	src/common/logger.cpp
 	src/common/logger_provider.cpp
 	src/common/verify.cpp

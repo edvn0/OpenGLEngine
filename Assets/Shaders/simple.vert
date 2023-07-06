@@ -7,8 +7,15 @@ layout (location = 2) in vec3 normals;
 layout (location = 0) out vec2 out_tex;
 layout (location = 1) out vec3 out_normals;
 
+layout (std140) uniform UBO {
+	mat4 model;
+	mat4 view;
+	mat4 projection;
+	mat4 mvp;
+};
+
 void main() {
-    gl_Position = vec4(position.xyz, 6);
+    gl_Position = mvp * position;
     out_tex = tex;
     out_normals = normals;
 }
